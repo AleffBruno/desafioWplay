@@ -1,7 +1,8 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import {Routes} from './routes/Routes';
-
+import "reflect-metadata";
+import {createConnection} from "typeorm";
 
 
 class App {
@@ -12,11 +13,24 @@ class App {
         this.app = express.default();
         this.config();
         this.allRoutes.routes(this.app);
+        this.startConnectionWithDB();
     }
 
     private config() : void {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({extended:false}));
+    }
+
+    async startConnectionWithDB() {
+        //config come from 'ormconfig.json'
+        // WARNING > on key "entities" DON'T use '/'(slash) when start to write the path
+        try {
+            await createConnection()
+        } catch (err) {
+            //uma boa seria chamar meu middleware de erro aqui
+            console.log("====>> SE O TESTE RODOU, IGNORE ESSE ERRO ABAIXO <<====");
+            console.log(err);
+        }
     }
 }
 

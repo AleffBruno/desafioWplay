@@ -7,10 +7,9 @@ export class Routes {
 
     public folderController : FolderController = new FolderController(); 
 
-
     public routes(app : express.Application) : void {
 
-        app.post("/",this.folderController.list);
+        app.post("/list",this.folderController.list);
 
     }
 }

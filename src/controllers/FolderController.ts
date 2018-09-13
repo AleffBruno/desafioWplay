@@ -3,10 +3,12 @@
 
 
 import {Request,Response} from 'express';
-var fs = require('fs');
+//var fs = require('fs');
+import * as fs from 'fs';
 
 
 export class FolderController {
+
     list(req:Request,res:Response) {
 
         const path = req.body.path;
