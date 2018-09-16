@@ -1,0 +1,8 @@
+retornar um objeto 
+a funcao deve retornar um objeto
+
+
+
+
+mostra arquivos...
+se for pasta....mostra arquivos ( passo acima )

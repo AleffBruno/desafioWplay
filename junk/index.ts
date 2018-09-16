@@ -1,80 +1,77 @@
-//var fs = require('fs');
 import * as fs from 'fs';
-import "reflect-metadata";
 import * as Path from 'path';
-
-import {Folder} from '../src/models/Folder';
-import {File} from '../src/models/File';
-
 const path = "C:/Users/ffela/Desktop/myPath"
+import {Folder} from '../src/models/Folder';
 
-// fs.readdir(path,function(err,items){
-            
-//     for (var i=0; i<items.length; i++) {
-//         console.log(items[i]);
-//         //var file = path + '\\' + items[i]; 2 barras invertidas se tiver local no windows
-//         var file = path + '/' + items[i];
-//         console.log('Start '+file);
-//         console.log(fs.lstatSync(file).isDirectory());
-//         if(fs.lstatSync(file).isDirectory()) {
-//             fs.readdir(file,function(err,items){
-//                 for (var j=0; j<items.length; j++) {
-//                     console.log(items[j]);
-//                     var subFile = file + '/' + items[j];
-//                     console.log(fs.lstatSync(subFile).isDirectory());
-//                 }
-//             })
-//         }
-//     }
-// })
-
-function readFolderRecursively(path:string) {
+var obj: {[k: string]: any} = {};
+function showItems(path:any){
     fs.readdir(path,async function(err:Error,items:string[]){
         for (var i=0; i<items.length; i++) {
             var pathItem = path + '/' + items[i];
-            //console.log(items[i]);
-
-            if(fs.lstatSync(pathItem).isDirectory() == false){
-                console.log(pathItem);
-                let file = new File();
-                fs.stat(pathItem,(err,status) => {
-                    file.path = pathItem;
-                    file.name = items[i];
-                    file.extension = Path.extname(pathItem);
-                    console.log(file);
-                });
-                //await fs.stat(pathItem,fileSize_callback(pathItem))
-                
-                //file.CreationDate = pathItem.
-            }
-
-            //var pathItem = path + '/' + items[i];
+            //console.log(pathItem);
             if(fs.lstatSync(pathItem).isDirectory()) {
-                let folder = new Folder();
-                folder.path = pathItem;
-                folder.name = items[i];
-                folder.creationDate = "TEM NAO"; // arrumar jaja
-                folder.owner = "TEM NAO";
-                
-                //readFolderRecursively(pathItem);
-                //console.log(folder);
+                obj.folder = showItems(pathItem);
+                // fs.stat(pathItem,function(err,stats){
+                //     //console.log(pathItem);
+                // })
+            }else{
+                //arr.push(pathItem);
             }
         }
     })
 }
+showItems(path);
 
-function fileSize_callback(file:string) {
-    return function(err:Error, stats:any) {
-            // console.log(file);
-            // console.log(stats["size"]);
-            console.log(file+" tem o tamanho de : ");
-            console.log(stats.size);
-        }
+//console.log(obj);
+
+
+function filewalker(dir:any, done:any) {
+    //se vinhar o parametro de diretorio, seje filho dele ????
+    //let results:any = [];
+    let results: {[k: string]: any} = {};
+
+    fs.readdir(dir, function(err, list) {
+        //COLOQUE OS ATRIB AQUI
+        let folder = new Folder();
+        folder.name = "folder Name here";
+
+        if (err) return done(err);
+
+        var pending = list.length;
+
+        if (!pending) return done(null, results);
+
+        list.forEach(function(file){
+            file = Path.resolve(dir, file);
+
+            fs.stat(file, function(err, stat){
+                // If directory, execute a recursive call
+                if (stat && stat.isDirectory()) {
+                    // Add directory to array [comment if you need to remove the directories from the array]
+                    //results.push(file);
+                    results.folder = file;
+
+                    filewalker(file, function(err:any, res:any){
+                        //results = results.concat(res);
+                        results = Object.assign(res,results);
+                        if (!--pending) done(null, results);
+                    });
+                } else {
+                    //results.push(file);
+                    results.file = file;
+
+                    if (!--pending) done(null, results);
+                }
+            });
+        });
+    });
 };
- 
-readFolderRecursively(path);
 
-
-
-//      C:/Users/ffela/Desktop/myPath/subpasta/disco100_SOLVED.txt
-//      C:\Users\ffela\Desktop\myPath\disco100_SOLVED.txt
+filewalker("C:/Users/ffela/Desktop/myPath", function(err:any, data:any){
+    if(err){
+        throw err;
+    }
+    
+    // ["c://some-existent-path/file.txt","c:/some-existent-path/subfolder"]
+    console.log(data);
+});

@@ -5,24 +5,24 @@ import {File} from "./File";
 @Entity()
 export class Folder {
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+    // @PrimaryGeneratedColumn()
+    // id!: number;
 
-    @Column()
-    path!: string;
+    // @Column()
+    // path!: string;
 
     @Column("text")
     name!: string;
 
-    @Column()
-    creationDate!: string;
+    // @Column()
+    // creationDate!: string;
 
-    @Column()
-    owner!: string;
+    // @Column()
+    // owner!: string;
 
     // @Column()
     // folders!: Folder[];
 
-    @OneToMany(type => File, file => file.folder) // note: we will create author property in the Photo class below
-    files!: File[];
+    // @OneToMany(type => File, file => file.folder) // note: we will create author property in the Photo class below
+    // files!: File[];
 }
