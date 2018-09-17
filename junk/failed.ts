@@ -10,19 +10,27 @@ function returnPathName(){
 
 function returnPathItems(path:any){
     let items = fs.readdirSync(path);
-    let rItems : any = [];
+
+    let fileItems : any = [];
+    let folderRecursive : any = [];
+    let folder : any = {};
+
+    folder.name = path;
     
     for(let i = 0 ;i<items.length;i++){
         //let filePath = Path.resolve(path, items[i]); // retornando os caminhos com "\\" em vez de "/"
         let filePath = path + '/' + items[i];
         if(!fs.lstatSync(filePath).isDirectory()){
-            rItems.push(filePath);
+            fileItems.push(filePath);
         }else{
-            rItems.push(returnPathItems(filePath));
+            //rItems.push(returnPathItems(filePath));
+            //folderRecursive.push(returnPathItems(filePath));
+            folder.folder = returnPathItems(filePath);
         }
     }
+    folder.files = fileItems;
     //console.log(items);
-    return rItems 
+    return folder 
 }
 
 let arr : any = {
@@ -31,7 +39,7 @@ let arr : any = {
 };
 
 //returnPathItems(path);
-console.log(returnPathItems(path));
+console.log(JSON.stringify(returnPathItems(path)));
 //arr = JSON.stringify(arr); // {"name":"a","items":["a","b"]}
 //console.log(arr);
 //console.log({arr}); // { arr: '["a","b"]' }
