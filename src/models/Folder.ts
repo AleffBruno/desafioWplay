@@ -8,17 +8,17 @@ export class Folder {
     // @PrimaryGeneratedColumn()
     // id!: number;
 
-    // @Column()
-    // path!: string;
+    @Column()
+    path!: string;
 
     @Column("text")
     name!: string;
 
-    // @Column()
-    // creationDate!: string;
+    @Column()
+    creationDate!: string;
 
-    // @Column()
-    // owner!: string;
+    @Column()
+    owner!: string;
 
     // @Column()
     // folders!: Folder[];
