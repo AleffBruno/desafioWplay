@@ -9,7 +9,7 @@ let ps = new shell({
 var fullpath = "C:/Users/f1608101/Desktop/myPath"
 ps.addCommand('GET-ACL '+ fullpath +' | select Owner')
 ps.invoke().then(output=>{
-    console.log(output)
+    console.log(output.replace('-----','').replace('Owner',''));
     ps.dispose()
 }).catch(err=>{
     console.log(err)
