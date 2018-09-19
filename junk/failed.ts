@@ -59,8 +59,8 @@ function returnPathItems(path:any){
 }
 
 //returnPathItems(path);
-console.log(JSON.stringify(returnPathItems(path)));
+//console.log(JSON.stringify(returnPathItems(path)));
 //arr = JSON.stringify(arr); // {"name":"a","items":["a","b"]}
 //console.log(fs.statSync(path).S_IWUSR);
 //console.log(fs.statSync(path).uid);
-
+console.log(fs.statSync(path).uid);
