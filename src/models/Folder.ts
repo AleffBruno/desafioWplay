@@ -17,8 +17,8 @@ export class Folder {
     @Column()
     creationDate!: string;
 
-    /* @Column()
-    owner!: string; */
+    @Column()
+    owner!: string;
 
     @Column()
     folders!: Folder[];
