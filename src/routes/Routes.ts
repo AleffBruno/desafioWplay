@@ -11,5 +11,9 @@ export class Routes {
 
         app.post("/list",this.folderController.list);
 
+        app.get("/",(req,res)=>{
+            res.send("a");
+        });
+
     }
 }

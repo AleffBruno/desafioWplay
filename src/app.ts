@@ -13,7 +13,7 @@ class App {
         this.app = express.default();
         this.config();
         this.allRoutes.routes(this.app);
-        this.startConnectionWithDB();
+        //this.startConnectionWithDB();
     }
 
     private config() : void {

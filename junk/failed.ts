@@ -2,7 +2,9 @@
 
 import * as fs from 'fs';
 import * as Path from 'path';
-const path = "C:/Users/f1608101/Desktop/myPath"
+//const path = "C:/Users/f1608101/Desktop/myPath"
+const path = "C:/Users/f1608101/Downloads"
+
 
 import {Folder} from '../src/models/Folder';
 import {File} from '../src/models/File';
@@ -27,7 +29,7 @@ function returnPathItems(path:any){
     myFolder.name = Path.basename(path);
     myFolder.path = path;
     myFolder.creationDate = fs.statSync(path).birthtime.toString();
-    myFolder.owner = shell.exec("stat -c '%U' "+path).stdout.replace('\n','');
+    //myFolder.owner = shell.exec("stat -c '%U' "+path).stdout.replace('\n','');
     //myFolder.owner = "a";
     
     for(let i = 0 ;i<items.length;i++){
@@ -40,7 +42,7 @@ function returnPathItems(path:any){
             file.extension = Path.extname(filePath);
             file.creationDate = fs.statSync(filePath).birthtime.toString();
             file.size = fs.statSync(filePath).size.toString();
-            file.owner = shell.exec("stat -c '%U' "+path).stdout.replace('\n','');
+            //file.owner = shell.exec("stat -c '%U' "+path).stdout.replace('\n','');
             
 
             fileItems.push(file);
@@ -54,6 +56,7 @@ function returnPathItems(path:any){
     }
     folder.folder = foldersAsItems;
     folder.files = fileItems;
+    
 
     //somente é colocado o attributo folder no json se ele existir
     if(foldersAsItems.length > 0) {
